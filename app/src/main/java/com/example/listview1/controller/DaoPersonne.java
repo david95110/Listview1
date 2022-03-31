@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class DaoPersonne {
     //on definit un ArrayList pour stocker les personnes
     static ArrayList<Personne> list = new ArrayList<>();
+    // l!arrayList (ça pourrait être dans une DB)
     public static void addPersonne(Personne personne){
         list.add(personne);
     }
