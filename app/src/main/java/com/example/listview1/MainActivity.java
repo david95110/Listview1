@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     public static final String LIST_PERSONNES="personnes";
     EditText eNom, ePrenom;
-    ArrayList<Personne> personnes = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         // il n'y a pas de DB derriere pour l'auto-incrementation
         // de l'id, donc on lui donne ici tojours la même valeur
         // cette ligne est à supprimer losqu'on on rajoutera la db
-        Personne.setId(1);
+        personne.setId(1);
 
         // on ajoute la personne à l'arraylist
         DaoPersonne.addPersonne(personne);

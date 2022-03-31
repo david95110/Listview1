@@ -8,6 +8,7 @@
     tools:context=".ListViewActivity">
 
     <ListView
+        android:id="@+id/listView"
         android:layout_width="421dp"
         android:layout_height="631dp"
         app:layout_constraintBottom_toBottomOf="parent"
