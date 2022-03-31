@@ -50,12 +50,16 @@ public class ListViewActivity extends AppCompatActivity {
                 Personne personne = DaoPersonne.getAllPersonnes().get(index);
                 // on créé un Intent
                  Intent intent1 = new Intent();
+
                  //on stocke la paesonne recupérée dans l'intent
                 intent1.putExtra(PERSONNE,personne);
 
+                //on renvoie un code à MainActivity pour indiquer que tout s'est bien passé
+                setResult(RESULT_OK, intent1);
+                // on ferme la liste listViewActivity
+                finish();
                 }
 
-            }
         });
     }
 }

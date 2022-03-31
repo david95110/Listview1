@@ -1,11 +1,18 @@
 package com.example.listview1;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.listview1.controller.DaoPersonne;
 import com.example.listview1.model.Personne;
@@ -15,7 +22,10 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     public static final String LIST_PERSONNES="personnes";
     EditText eNom, ePrenom;
-
+    // on va declarer un lanceur pour un appel préalablement préparé (l'intent)
+    // pour declarer le processus d'excution
+    // ActivityResultContract
+    ActivityResultLauncher<Intent> intentActivityResultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +34,40 @@ public class MainActivity extends AppCompatActivity {
 
         eNom = findViewById(R.id.eNom);
         ePrenom = findViewById(R.id.ePrenom);
+
+        intentActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                    // on teste que le resultat est ok
+                        if (result.getResultCode() == Activity.RESULT_OK){
+                           // on recupere l'intent que l'on a créé dans listview
+                            Intent data = result.getData()  ;
+
+                            // on recupere la personne stockée
+                            Personne personne = (Personne) data.getSerializableExtra(ListViewActivity.PERSONNE);
+
+                            Toast.makeText(getBaseContext(), personne.toString(), Toast.LENGTH_LONG).show();
+
+                            }
+
+                        }
+
+
+        });
+
+
+    /*    // GetContent creates an ActivityResultLauncher<String> to allow you to pass
+        // in the mime type you'd like to allow the user to select
+        ActivityResultLauncher<String> mGetContent = registerForActivityResult(new GetContent(),
+                new ActivityResultCallback<Uri>() {
+                    @Override
+                    public void onActivityResult(Uri uri) {
+                        // Handle the returned Uri
+                    }
+                });
+*/
 
     }
 
@@ -50,7 +94,9 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(MainActivity.LIST_PERSONNES,
                 DaoPersonne.getAllPersonnes());
         // On lance l'intent
-        startActivity(intent);
+  //1:      startActivity(intent);
+        // on remplace plus haut par Launcher
+        intentActivityResultLauncher.launch(intent);
 
     }
 }
