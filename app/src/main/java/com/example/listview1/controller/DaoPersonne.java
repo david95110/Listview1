@@ -11,4 +11,9 @@ public class DaoPersonne {
     public static void addPersonne(Personne personne){
         list.add(personne);
     }
+    // cette methode permet de recuperer la liste des personnes
+    // qui peuvent provenir d'une même DB
+    public static ArrayList<Personne> getAllPersonnes(){
+        return list;
+    }
 }
