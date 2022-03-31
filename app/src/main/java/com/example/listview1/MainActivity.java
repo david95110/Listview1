@@ -1,0 +1,56 @@
+package com.example.listview1;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
+import com.example.listview1.controller.DaoPersonne;
+import com.example.listview1.model.Personne;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+    public static final String LIST_PERSONNES="personnes";
+    EditText eNom, ePrenom;
+    ArrayList<Personne> personnes = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        eNom = findViewById(R.id.eNom);
+        ePrenom = findViewById(R.id.ePrenom);
+
+    }
+
+    public void envoi(View view) {
+        //on recupere les donnees du formulaire
+        String nom = eNom.getText().toString();
+        String prenom = ePrenom.getText().toString();
+
+        // on instance un objet Personne
+        Personne personne = new Personne(nom, prenom);
+        // il n'y a pas de DB derriere pour l'auto-incrementation
+        // de l'id, donc on lui donne ici tojours la même valeur
+        // cette ligne est à supprimer losqu'on on rajoutera la db
+        Personne.setId(1);
+
+        // on ajoute la personne à l'arraylist
+        DaoPersonne.addPersonne(personne);
+
+        // on va créer l'intent pour demarrer ListviewActivity
+        // intend est un message servant pour envoyer au system android
+        Intent intent = new Intent(this, ListViewActivity.class);
+        // on stocke l'arrayLis de personne à envoyer à listViewActivity
+        // dans intent
+        intent.putExtra(MainActivity.LIST_PERSONNES,
+                DaoPersonne.getAllPersonnes());
+        // On lance l'intent
+        startActivity(intent);
+
+    }
+}
